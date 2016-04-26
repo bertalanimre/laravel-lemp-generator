@@ -1,0 +1,32 @@
+server	{
+ 	listen	80;
+ 
+	server_name	<projectname-slug>.<username>.com;
+ 	root		/var/www/com.<projectname-slug>/public;
+ 
+ 	error_log	/var/log/nginx/hu.<projectname-slug>/error.log;
+ 	access_log	/var/log/nginx/hu.<projectname-slug>/access.log;
+
+ #       auth_basic "Restricted";
+ #       auth_basic_user_file /etc/nginx/htpasswd.hu.<projectname-slug>;
+ 
+ 	index		index.php;
+ 
+ 	rewrite ^/index\.php?(.*)$ /$1 permanent;
+ 
+ 	location / {
+ 		try_files $uri @rewrite;
+ 	}
+ 
+ 	location	@rewrite {
+ 		rewrite ^(.*)$ /index.php/$1 last;
+ 	}
+        
+ 	location ~ ^/index.php(/|$) {
+ 		fastcgi_pass 127.0.0.1:9000;
+ 		fastcgi_split_path_info ^(.+\.php)(/.*)$;
+ 		include fastcgi_params;
+ 		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+ 	}
+
+}
