@@ -336,7 +336,7 @@ done
 while true;do
 read -p "Do you want to link the config file to sites-enabled folder? (yes/no/quit) " live
 case $live in
-  [Yy]*)  link = true
+  [Yy]*)  link=true
           break;;
   [Nn]*)  break;;
   [Qq]*)  exit 0;;
@@ -361,8 +361,7 @@ fi
 
 read -p "Do you want to clone the repository to the default folder? (yes/no/quit)" live
 case $live in
-  [Yy]*)  clonelocation=$gitlocation"com."$project
-          break;;
+  [Yy]*)  clonelocation=$gitlocation"com."$project;;
   [Nn]*)  while [ ! -d "$customgit" ];do
             echo "Where do you want to clone the repository to?"
             read -e customgit
